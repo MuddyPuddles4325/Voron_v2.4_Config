@@ -69,9 +69,11 @@ def copyLatestFiles():
             mooncord['connection']['bot_application_id'] = ''
             with open(Path(gitBackupPath + file), "w") as outfile:
                 json.dump(mooncord, outfile, indent=4, sort_keys=False)
+        elif(file.startswith("mooncord")):
+            print("File Skipped: " + file)
         else:
             copyfile(Path(klipperCfgPath + file), Path(gitBackupPath + file))
-            print("Copied file to " + gitBackupPath + file)
+            #print("Copied file to " + gitBackupPath + file)
 
 #change directory to git repo path and commit changes
 #manually run git config --global credential.helper store to avoid log in requirements
@@ -79,7 +81,11 @@ now = datetime.now()
 commmitComment = "Autocommit from " + now.strftime("%Y/%m/%d, %H:%M:%S") + "\n\n" + getVersionInfo()
 copyLatestFiles()
 os.chdir(gitRepoPath)
+print("Git Pull...")
 subprocess.call(["git", "pull"])
+print("Git Add...")
 subprocess.call(["git", "add","*"])
+print("Git Commit... \n" + commmitComment)
 subprocess.call(["git", "commit", "-m", commmitComment])
 subprocess.call(["git", "push"])
+print("Git Push...")
