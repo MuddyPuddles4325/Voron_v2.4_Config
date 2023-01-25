@@ -1,4 +1,4 @@
-## Enraged Rabbit : Carrot Feeder config file with config for EASY-BRD mcu
+## Enraged Rabbit : Carrot Feeder config file with config for {brd_type} mcu
 ##
 ## IMPORTANT ERCF EASY-BRD J6 Jumper setting (ERB board doesn't require jumper setting):
 ## Option 1: Pins 2-3 and 4-5, i.e.  .[..][..]
@@ -35,7 +35,7 @@ dir_pin: !ercf:PA10
 enable_pin: !ercf:PA2
 rotation_distance: 22.7316868		# Bondtech 5mm Drive Gears. Must be manually verified and tuned.
 gear_ratio: 80:20
-microsteps: 8 				# Recommend 8 or 16. Try both to avoid Klipper 'Timer too close' error (also try adjusting num_moves)
+microsteps: 8 				# Recommend 8 or 16. Try both to avoid 'MCU Timer too close' issues under Klipper (also try adjusting num_moves)
 full_steps_per_rotation: 200		# 200 for 1.8 degree, 400 for 0.9 degree
 velocity: 100
 accel: 400
@@ -43,7 +43,7 @@ accel: 400
 # Uncomment if you want to use sensorless SELECTOR with the ERCF EASY BRD (yes, this is on the gear stepper!)
 # This should be the pin of the physical selector endstop and is used to determine the difference between the true
 # endstop and a blockage preventing selector movement. Don't forget to set 'sensorless_selector: 0' in ercf_parameters.cfg
-endstop_pin: ^ercf:PB9	# Comment if using physical endstop switch (default)
+endstop_pin: ^ercf:PB9			# Comment if using physical endstop switch (default)
 
 
 # SELECTOR STEPPER  --------------------------------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ driver_SGTHRS: 75			# 255 is most sensitive value, 0 is least sensitive
 [manual_stepper selector_stepper]
 step_pin: ercf:PA9
 dir_pin: !ercf:PB8
-enable_pin: !ercf:PA11
+enable_pin: !ercf:PA11        
 rotation_distance: 40
 microsteps: 16 				# Don't need high fidelity
 full_steps_per_rotation: 200		# 200 for 1.8 degree, 400 for 0.9 degree
@@ -74,7 +74,7 @@ accel: 600
 #
 # Select the endstop switch physical (for normal selector) or virtual (sensorless selector homing)
 endstop_pin: tmc2209_selector_stepper:virtual_endstop	# Uncomment for sensorless selector homing
-#endstop_pin: ^ercf:PB9				# Uncomment for physical homing option (default)
+#endstop_pin: ^ercf:PB9					# Uncomment for physical homing option (default)
 
 
 # SELECTOR SERVO -----------------------------------------------------------------------------------------------------------
@@ -84,6 +84,7 @@ maximum_servo_angle: 180
 minimum_pulse_width: 0.00085
 maximum_pulse_width: 0.00215
 #initial_angle:	30			# You may want to set this to your "up" angle after calibration
+
 
 
 # Comment this section if you are sure you never want clog detection.
@@ -98,7 +99,7 @@ switch_pin: ^ercf:PA6
 pause_on_runout: False			# Must be false
 detection_length: 10.0			# This is the default detection - it overridden during calibration with calculated length
 extruder: extruder
-runout_gcode: ERCF_ENCODER_RUNOUT
+runout_gcode: ERCF_ENCODER_RUNOUTT
 # ERCF Clog detection END
 
 
@@ -107,6 +108,6 @@ runout_gcode: ERCF_ENCODER_RUNOUT
 ## ERCF Toolhead sensor START
 #[filament_switch_sensor toolhead_sensor]
 #pause_on_runout: False			# Must be False
-#switch_pin: {dummy_pin_must_set_me}
+#switch_pin: {toolhead_sensor_pin}
 ## ERCF Toolhead sensor END
 

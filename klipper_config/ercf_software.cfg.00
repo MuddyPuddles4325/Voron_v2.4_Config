@@ -1,5 +1,5 @@
 [save_variables]
-filename: /home/pi/printer_data/config/ercf_vars.cfg
+filename: /home/pi/klipper_config/ercf_vars.cfg
 
 ########################################################################
 # Tool change macros

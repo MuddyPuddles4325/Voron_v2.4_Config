@@ -7,7 +7,7 @@ import subprocess
 from datetime import datetime
 
 ### Path to your config folder you want to backup
-klipperCfgPath = '/home/pi/klipper_config/'
+klipperCfgPath = '/home/pi/printer_data/config/'
 
 ### Path to your Klipper folder, by default that is '~/klipper'
 klipper_folder= Path('/home/pi/klipper')
@@ -35,12 +35,12 @@ def getVersionInfo():
         os.chdir(moonraker_folder)
         out = subprocess.check_output(['git', 'rev-parse', '--short=7', 'HEAD']).decode("utf-8").strip()
         versions = versions +  "Moonraker on commit: " + out + "\n"
-    
+
     if(Path.exists(mainsail_folder) == True):
         versions = versions +  "Mainsail version: "  + open(mainsail_folder).readline() + "\n"
     if(Path.exists(fluidd_folder) == True):
         versions = versions + "Fluidd version: " + open(fluidd_folder).readline() + "\n"
-    
+
     return versions
 
 def copyLatestFiles():
@@ -56,13 +56,13 @@ def copyLatestFiles():
     backupFolderList = os.listdir(gitBackupPath)
     for file in backupFolderList:
         if not file in backupList:
-            os.remove(Path(gitBackupPath + file)) 
+            os.remove(Path(gitBackupPath + file))
             print("Deleting removed file: " + file)
 
     ## Copy all other files to GIT backup folder ##
     for file in backupList:
         if(file == 'mooncord.json'):
-            ## Remove tokens to avoid revealing secret keys     
+            ## Remove tokens to avoid revealing secret keys
             mooncord = json.load(open(Path(klipperCfgPath + file)))
             mooncord['connection']['bot_token'] = ''
             mooncord['connection']['bot_application_key'] = ''
