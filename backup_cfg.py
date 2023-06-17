@@ -22,7 +22,7 @@ mainsail_folder= Path('/home/pi/mainsail/.version')
 fluidd_folder= Path('/home/pi/fluidd/.version')
 
 ### Path to your config backup repo folder
-gitRepoPath = '/home/pi/klipper_cfg_backup/Voron_v2.4_Config/'
+gitRepoPath = '/home/pi/Voron_v2.4_Config/'
 gitBackupPath = gitRepoPath + 'klipper_config/'
 
 def getVersionInfo():
@@ -44,7 +44,7 @@ def getVersionInfo():
     return versions
 
 def copyLatestFiles():
-    os.chdir('/home/pi/klipper_cfg_backup/')
+    os.chdir(gitRepoPath)
     ## Get list of files to back up ##
     cfgFolderList = os.listdir(klipperCfgPath)
     backupList = []
@@ -72,8 +72,14 @@ def copyLatestFiles():
         elif(file.startswith("mooncord")):
             print("File Skipped: " + file)
         else:
+            print("Copied file " + klipperCfgPath + file + " to " + gitBackupPath + file)
+            if os.path.exists(Path(gitBackupPath + file)):
+                # in case of the src and dst are the same file
+                if os.path.samefile(Path(klipperCfgPath + file), Path(gitBackupPath + file)):
+                    continue
+                os.remove(Path(gitBackupPath + file))
             copyfile(Path(klipperCfgPath + file), Path(gitBackupPath + file))
-            #print("Copied file to " + gitBackupPath + file)
+
 
 #change directory to git repo path and commit changes
 #manually run git config --global credential.helper store to avoid log in requirements
