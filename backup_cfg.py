@@ -49,7 +49,7 @@ def copyLatestFiles():
     cfgFolderList = os.listdir(klipperCfgPath)
     backupList = []
     for file in cfgFolderList:
-        if not file.startswith('printer-202') and not file.startswith('.'):
+        if not file.startswith('printer-202') and not file.startswith('.') and not file.startswith('mmu-202'):
             backupList.append(file)
 
     ## Clean up old files that are not in current config directory ##
@@ -85,7 +85,7 @@ def copyLatestFiles():
 #manually run git config --global credential.helper store to avoid log in requirements
 now = datetime.now()
 commmitComment = "Autocommit from " + now.strftime("%Y/%m/%d, %H:%M:%S") + "\n\n" + getVersionInfo()
-copyLatestFiles()
+#copyLatestFiles()
 os.chdir(gitRepoPath)
 print("Git Pull...")
 subprocess.call(["git", "pull"])
